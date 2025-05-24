@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}All Venues{% endblock %}
+
+{% block content %}
+  <h1>Venues</h1>
+  {% if venues %}
+    <ul>
+      {% for venue in venues %}
+        <li>
+          <h2><a href="{{ url_for('main.view_venue_ui', venue_id=venue.id) }}">{{ venue.name }}</a></h2>
+          <p>Capacity: {{ venue.capacity }}</p>
+          {% if venue.description %}<p>Description: {{ venue.description }}</p>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No venues available.</p>
+  {% endif %}
+  {# Add link to create new venue page later if implemented #}
+{% endblock %}

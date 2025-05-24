@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Venue Reservation System{% endblock %}</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        nav { margin-bottom: 20px; }
+        nav a { margin-right: 15px; }
+        .container { max-width: 800px; margin: auto; }
+        .error { color: red; }
+        .success { color: green; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin-bottom: 10px; border: 1px solid #ccc; padding: 10px; }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="{{ url_for('main.home_page') }}">Home</a>
+      <a href="{{ url_for('main.list_venues_ui') }}">Venues</a>
+      {# Add other navigation links here as UI grows #}
+    </nav>
+    <div class="container">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="{{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>

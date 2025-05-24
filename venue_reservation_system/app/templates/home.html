@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Venue Reservation System{% endblock %}
+
+{% block content %}
+  <h1>Welcome to the Venue Reservation System</h1>
+  <p>Use the navigation to find venues and make reservations.</p>
+  <p><a href="{{ url_for('main.list_venues_ui') }}">View Venues</a></p>
+{% endblock %}

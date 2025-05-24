@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}{{ venue.name }}{% endblock %}
+
+{% block content %}
+  <h1>{{ venue.name }}</h1>
+  <p>Capacity: {{ venue.capacity }}</p>
+  {% if venue.description %}<p><strong>Description:</strong> {{ venue.description }}</p>{% endif %}
+  {% if venue.equipment_details %}<p><strong>Equipment:</strong> {{ venue.equipment_details }}</p>{% endif %}
+  {% if venue.usage_notes %}<p><strong>Usage Notes:</strong> {{ venue.usage_notes }}</p>{% endif %}
+
+  <hr>
+  <h2>Check Availability</h2>
+  <form method="GET" action="{{ url_for('main.view_venue_ui', venue_id=venue.id) }}">
+    <label for="date">Select Date:</label>
+    <input type="date" id="date" name="date" value="{{ selected_date }}" required>
+    <button type="submit">Check Slots</button>
+  </form>
+
+  {% if error_message %}
+    <p class="error">{{ error_message }}</p>
+  {% endif %}
+
+  {% if available_slots is defined %}
+    <h3>Available Slots for {{ selected_date }}:</h3>
+    {% if available_slots %}
+      <ul>
+        {% for slot in available_slots %}
+          <li>
+            {{ slot.start_time }} - {{ slot.end_time }}
+            <form method="POST" action="{{ url_for('main.make_reservation_ui') }}" style="display:inline; margin-left: 10px;">
+                <input type="hidden" name="venue_id" value="{{ venue.id }}">
+                <input type="hidden" name="start_time" value="{{ selected_date }}T{{ slot.start_time }}">
+                <input type="hidden" name="end_time" value="{{ selected_date }}T{{ slot.end_time }}">
+                <input type="hidden" name="user_id" value="1"> <!-- Placeholder for actual user ID -->
+                <button type="submit">Book Slot</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No available slots for this date.</p>
+    {% endif %}
+  {% endif %}
+
+  <p><a href="{{ url_for('main.list_venues_ui') }}">Back to Venues List</a></p>
+{% endblock %}
